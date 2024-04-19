@@ -1,7 +1,10 @@
 package com.koreait.exam.batch_ex_24_04.app.product.entity;
 
 import com.koreait.exam.batch_ex_24_04.app.base.entity.BaseEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -19,6 +22,7 @@ import static javax.persistence.CascadeType.ALL;
 @ToString(callSuper = true)
 public class Product extends BaseEntity {
     private int price;
+    private int wholesalePrice;
     private String name;
     private String makerShopName;
     private boolean isSoldOut; // 관련 옵션들이 전부 판매불가 상태
@@ -30,6 +34,7 @@ public class Product extends BaseEntity {
     public void addOption(ProductOption option) {
         option.setProduct(this);
         option.setPrice(getPrice());
+        option.setWholesalePrice(getWholesalePrice());
 
         productOptions.add(option);
     }
