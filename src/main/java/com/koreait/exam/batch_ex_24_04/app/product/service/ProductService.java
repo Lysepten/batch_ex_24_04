@@ -18,11 +18,11 @@ public class ProductService {
         int price = (int) Math.ceil(wholesalePrice * 1.6) / 100 * 100;
 
         Product product = Product.builder()
-            .name(name)
-            .salePrice(salePrice) // 판매가
-            .price(price) // 권장 소비자가
-            .wholesalePrice(wholesalePrice)
-            .makerShopName(makerShopName).build();
+                .name(name)
+                .salePrice(salePrice) // 판매가
+                .price(price) // 권장 소비자가
+                .wholesalePrice(wholesalePrice)
+                .makerShopName(makerShopName).build();
 
         for(ProductOption option : options) {
             product.addOption(option);
