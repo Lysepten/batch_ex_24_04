@@ -45,39 +45,39 @@ public class makeRebateOrderItemJobConfig {
         initData.run();
 
         return jobBuilderFactory.get("makeRebateOrderItemJob")
-            .start(makeRebateOrderItemStep1)
-            .build();
+                .start(makeRebateOrderItemStep1)
+                .build();
     }
 
     @Bean
     @JobScope
     public Step makeRebateOrderItemStep1(
-        ItemReader orderItemReader,
-        ItemProcessor orderItemToRebateOrderItemProcessor,
-        ItemWriter rebateOrderItemWriter
+            ItemReader orderItemReader,
+            ItemProcessor orderItemToRebateOrderItemProcessor,
+            ItemWriter rebateOrderItemWriter
     ) {
         return stepBuilderFactory.get("makeRebateOrderItemStep1")
-            .<OrderItem, RebateOrderItem>chunk(100)
-            .reader(orderItemReader)
-            .processor(orderItemToRebateOrderItemProcessor)
-            .writer(rebateOrderItemWriter)
-            .build();
+                .<OrderItem, RebateOrderItem>chunk(100)
+                .reader(orderItemReader)
+                .processor(orderItemToRebateOrderItemProcessor)
+                .writer(rebateOrderItemWriter)
+                .build();
     }
 
     @StepScope
     @Bean
     public RepositoryItemReader<OrderItem> orderItemReader(
-        @Value("#{jobParameters['fromId']}") long fromId,
-        @Value("#{jobParameters['toId']}") long toId
+            @Value("#{jobParameters['fromId']}") long fromId,
+            @Value("#{jobParameters['toId']}") long toId
     ) {
         return new RepositoryItemReaderBuilder<OrderItem>()
-            .name("orderItemReader")
-            .repository(orderItemRepository)
-            .methodName("findAllByIdBetween")
-            .pageSize(100)
-            .arguments(Arrays.asList(fromId, toId))
-            .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
-            .build();
+                .name("orderItemReader")
+                .repository(orderItemRepository)
+                .methodName("findAllByIdBetween")
+                .pageSize(100)
+                .arguments(Arrays.asList(fromId, toId))
+                .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
+                .build();
     }
 
     @StepScope
